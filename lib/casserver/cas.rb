@@ -17,8 +17,7 @@ module CASServer::CAS
 
     lt.client_hostname = @env['HTTP_X_FORWARDED_FOR'] || @env['REMOTE_HOST'] || @env['REMOTE_ADDR']
     lt.save!
-    $LOG.debug("Generated login ticket '#{lt.ticket}' for client" +
-      " at '#{lt.client_hostname}'")
+    $LOG.debug("Generated login ticket '#{lt.ticket}' for client" +" at '#{lt.client_hostname}'")
     lt
   end
 
@@ -274,22 +273,12 @@ module CASServer::CAS
 
   def service_uri_with_ticket(service, st)
     raise ArgumentError, "Second argument must be a ServiceTicket!" unless st.kind_of? CASServer::Model::ServiceTicket
+    service_uri(service,{ticket: st.ticket})
+  end
 
-    # This will choke with a URI::InvalidURIError if service URI is not properly URI-escaped...
-    # This exception is handled further upstream (i.e. in the controller).
-    service_uri = URI.parse(service)
-
-    if service.include? "?"
-      if service_uri.query.empty?
-        query_separator = ""
-      else
-        query_separator = "&"
-      end
-    else
-      query_separator = "?"
-    end
-
-    service_with_ticket = service + query_separator + "ticket=" + st.ticket
+  def service_uri(service,config={})
+    service_with_ticket = "#{service}#{service.include?('?') ? '&' : '?'}#{config.to_query}"
+    $LOG.info("service_with_ticket:#{service_with_ticket}")
     service_with_ticket
   end
 
