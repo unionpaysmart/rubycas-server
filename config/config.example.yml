@@ -99,7 +99,7 @@ ssl_cert: /path/to/your/ssl.pem
 #   i.e. `mysqladmin -u root create casserver`)
 
 database:
-  adapter: mysql
+  adapter: mysql2
   database: casserver
   username: root
   password:
@@ -113,7 +113,7 @@ database:
 #
 #database:
 #  pool: 10
-#  adapter: mysql
+#  adapter: mysql2
 #  database: casserver
 #  username: root
 #  password:
@@ -168,7 +168,7 @@ database:
 #authenticator:
 #  class: CASServer::Authenticators::SQL
 #  database:
-#    adapter: mysql
+#    adapter: mysql2
 #    database: some_database_with_users_table
 #    username: root
 #    password:
@@ -192,7 +192,7 @@ database:
 #authenticator:
 #  class: CASServer::Authenticators::SQL
 #  database:
-#    adapter: mysql
+#    adapter: mysql2
 #    database: some_database_with_users_table
 #  user_table: users
 #  username_column: username
@@ -200,7 +200,20 @@ database:
 #  extra_attributes: full_name, access_level
 #
 #
-#
+# === SQL Authentication for Devise ====================================================
+#authenticator:
+#   class: CASServer::Authenticators::SQLDevise
+#   database:
+#     adapter: mysql2
+#     database:
+#     username: root
+#     password:
+#     host: localhost
+#   user_table: users
+#   username_column: login
+#   password_column: encrypted_password
+#   extra_attributes: email,id
+
 # === Google Authentication ====================================================
 #
 # The Google authenticator allows users to log in to your CAS server using
