@@ -1,8 +1,10 @@
-source "http://rubygems.org"
+source 'http://ruby.taobao.org/'
 gemspec
 
+gem 'mysql2'
+gem 'thin'
+gem 'bcrypt-ruby'
 
-# Gems for authenticators
 group :ldap do
     gem "net-ldap", "~> 0.1.1"
 end
