@@ -277,7 +277,9 @@ module CASServer::CAS
   end
 
   def service_uri(service,config={})
-    service_with_ticket = "#{service}#{service.include?('?') ? '&' : '?'}#{config.to_query}"
+    _config = {}
+    (config||{}).each  {|key,value|_config[key.to_s] = value.to_str}
+    service_with_ticket = "#{service}#{service.include?('?') ? '&' : '?'}#{_config.to_query}"
     $LOG.info("service_with_ticket:#{service_with_ticket}")
     service_with_ticket
   end

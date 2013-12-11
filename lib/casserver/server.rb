@@ -495,7 +495,7 @@ module CASServer
         @message = {:type => 'mistake', :message => e.to_s}
         status 401
       end
-      $LOG.info("login method:"+params['login_method'])
+      $LOG.info("login method:#{params['login_method']}")
 
       render_login_page
     end
