@@ -415,7 +415,8 @@ module CASServer
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
         status 500
-        return render @template_engine, :login
+        #return render @template_engine, :login
+        render_login_page
       end
 
       # generate another login ticket to allow for re-submitting the form after a post
@@ -496,12 +497,9 @@ module CASServer
       end
       $LOG.info("login method:"+params['login_method'])
 
-      if params['login_method'] == 'local'
-        redirect service_uri(@service,{login_method: 'local'})
-      else
-        render @template_engine, :login
-      end
+      render_login_page
     end
+
 
     get /^#{uri_path}\/?$/ do
       redirect "#{config['uri_path']}/login", 303
@@ -745,6 +743,14 @@ module CASServer
 
 
     # Helpers
+
+    def render_login_page
+      if params['login_method'] == 'local'
+        redirect service_uri(@service,{login_method: 'local'})
+      else
+        render @template_engine, :login
+      end
+    end
 
     def response_status_from_error(error)
       case error.code.to_s
