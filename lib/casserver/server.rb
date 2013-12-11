@@ -746,7 +746,7 @@ module CASServer
 
     def render_login_page
       if params['login_method'] == 'local'
-        redirect service_uri(@service,{login_method: 'local'})
+        redirect service_uri(@service,@message)
       else
         render @template_engine, :login
       end
