@@ -494,8 +494,13 @@ module CASServer
         @message = {:type => 'mistake', :message => e.to_s}
         status 401
       end
+      $LOG.info("login method:"+params['login_method'])
 
-      render @template_engine, :login
+      if params['login_method'] == 'local'
+        redirect service_uri(@service,{login_method: 'local'})
+      else
+        render @template_engine, :login
+      end
     end
 
     get /^#{uri_path}\/?$/ do
@@ -733,6 +738,10 @@ module CASServer
       render :builder, :proxy
     end
 
+    # 2.8
+    get "#{uri_path}/lt" do
+      generate_login_ticket.ticket
+    end
 
 
     # Helpers
