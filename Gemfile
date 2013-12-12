@@ -4,6 +4,8 @@ gemspec
 gem 'mysql2'
 gem 'thin'
 gem 'bcrypt-ruby'
+gem 'sinatra-flash'
+gem 'sinatra-redirect-with-flash'
 
 group :ldap do
     gem "net-ldap", "~> 0.1.1"

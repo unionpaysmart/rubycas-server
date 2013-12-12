@@ -137,8 +137,10 @@ module CASServer
     end
 
     def self.handler_options
+      puts "bind:#{bind}"
+      puts "bind:#{config[:bind_address]}"
       handler_options = {
-        :Host => bind || config[:bind_address],
+        :Host => config[:bind_address]||bind,
         :Port => config[:port] || 443
       }
 
